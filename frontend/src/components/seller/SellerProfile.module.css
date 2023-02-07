@@ -1,0 +1,9 @@
+.seller-profile-image {
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.seller-profile-container {
+  overflow: hidden;
+}

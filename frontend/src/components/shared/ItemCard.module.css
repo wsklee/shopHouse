@@ -1,0 +1,23 @@
+.item-card-image {
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  transition: transform 0.2s ease;
+}
+
+.item-card-container {
+  overflow: hidden;
+}
+
+.item-card-container:hover .item-card-image {
+  transform: scale(1.2);
+}
+
+.item-card-text {
+  text-decoration: none;
+  color: black;
+}
+
+.item-card-text:hover {
+  color: gray;
+}
