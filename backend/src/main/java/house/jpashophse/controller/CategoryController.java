@@ -47,12 +47,13 @@ public class CategoryController {
 
     // Read all items of a category
     @GetMapping("/{id}")
-    public Result getAllItemsOfCategory(@PathVariable("id") Long categoryId){
+    public CategoryItemListDto getAllItemsOfCategory(@PathVariable("id") Long categoryId){
+        Category findCategory = categoryService.findOne(categoryId);
         List<CategoryItem> categoryItemsByCategory = categoryService.findCategoryItemsByCategory(categoryId);
         List<ItemPreviewDto> collect = categoryItemsByCategory.stream()
                 .map(c-> new ItemPreviewDto(c.getItem()))
                 .collect(Collectors.toList());
-        return new Result(collect);
+        return new CategoryItemListDto(findCategory.getName(), collect);
     }
 
     // Read All category
@@ -78,6 +79,13 @@ public class CategoryController {
     static class CategoryDto{
         private Long id;
         private String name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class CategoryItemListDto{
+        private String categoryName;
+        private List<ItemPreviewDto> itemList;
     }
 
 }

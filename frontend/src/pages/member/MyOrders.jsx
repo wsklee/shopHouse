@@ -22,16 +22,19 @@ function MyOrders() {
       </Spinner>
     );
   } else if (isSuccess) {
-    content = memberOrders.data.map((memberOrder) => (
-      <MyOrdersList
-        key={memberOrder.orderId}
-        orderId={memberOrder.orderId}
-        orderDate={memberOrder.orderDate}
-        orderStatus={memberOrder.orderStatus}
-        orderItems={memberOrder.orderItems}
-        totalPrice={memberOrder.totalPrice}
-      />
-    ));
+    content = memberOrders.data
+      .slice()
+      .reverse()
+      .map((memberOrder) => (
+        <MyOrdersList
+          key={memberOrder.orderId}
+          orderId={memberOrder.orderId}
+          orderDate={memberOrder.orderDate}
+          orderStatus={memberOrder.orderStatus}
+          orderItems={memberOrder.orderItems}
+          totalPrice={memberOrder.totalPrice}
+        />
+      ));
   } else if (isError) {
     content = <div>{error.toString()}</div>;
   }

@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 import Spinner from "react-bootstrap/Spinner";
 import ItemCard from "../components/shared/ItemCard";
 import AlertExtraContent from "../components/shared/AlertExtraContent";
+import { Fragment } from "react";
 
 import { useParams } from "react-router-dom";
 import { useGetItemsOfCategoryQuery } from "../api/extendedCategoryApiSlice";
@@ -11,7 +12,7 @@ import { useGetItemsOfCategoryQuery } from "../api/extendedCategoryApiSlice";
 function CategoryItemList() {
   const { categoryId } = useParams();
   const {
-    data: items,
+    data: categoryItems,
     isLoading,
     isSuccess,
     isError,
@@ -19,6 +20,8 @@ function CategoryItemList() {
   } = useGetItemsOfCategoryQuery(categoryId);
 
   let content;
+  let mappedItemList;
+  let itemListLength;
 
   if (isLoading) {
     content = (
@@ -27,7 +30,8 @@ function CategoryItemList() {
       </Spinner>
     );
   } else if (isSuccess) {
-    content = items.data.map((item) => (
+    itemListLength = categoryItems.itemList.length;
+    mappedItemList = categoryItems.itemList.map((item) => (
       <Col key={item.id}>
         <ItemCard
           id={item.id}
@@ -39,6 +43,20 @@ function CategoryItemList() {
         />
       </Col>
     ));
+    content = (
+      <Fragment>
+        <Col md={3}>
+          <h1>{categoryItems.categoryName} </h1>
+          <p>{`${itemListLength} ${itemListLength > 1 ? "items" : "item"}`}</p>
+        </Col>
+        <Col md={9}>
+          <p className="fw-bold">Items</p>
+          <Row xs={2} md={3} className="gx-4 gy-5">
+            {mappedItemList}
+          </Row>
+        </Col>
+      </Fragment>
+    );
   } else if (isError) {
     content = (
       <Col>
@@ -53,18 +71,7 @@ function CategoryItemList() {
 
   return (
     <Container>
-      <Row>
-        <Col md={3}>
-          <h1>Sofa </h1>
-          <p>41 Items</p>
-        </Col>
-        <Col md={9}>
-          <p className="fw-bold">Items</p>
-          <Row xs={2} md={3} className="gx-4 gy-5">
-            {content}
-          </Row>
-        </Col>
-      </Row>
+      <Row>{content}</Row>
     </Container>
   );
 }

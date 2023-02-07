@@ -31,7 +31,7 @@ export const extendedCategoryApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.data.map(({ id }) => ({
+              ...result.itemList.map(({ id }) => ({
                 type: "Item",
                 id: id,
               })),
